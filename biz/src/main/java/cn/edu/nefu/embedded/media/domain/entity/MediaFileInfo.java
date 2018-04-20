@@ -18,7 +18,7 @@ public class MediaFileInfo {
    */
   private String fileName;
   /**
-   * 文件的md5值（文件名+上传时间毫秒+上传用户）
+   * 文件的md5值（文件名+上传时间毫秒+上传机器IP+上传用户）
    */
   private String md5Val;
   /**
