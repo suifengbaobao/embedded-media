@@ -19,20 +19,20 @@ public class FtpUtil {
 
   /**
    * ftp上传文件方法 title:pictureUpload
-   * @param picNewName 文件新名称--防止重名 例如："1.jpg"
-   * @param picSavePath 文件保存路径。注：最后访问路径是 ftpConfig.getFTP_ADDRESS()+"/images"+picSavePath
+   * @param newName 文件新名称--防止重名 例如："1.jpg"
+   * @param savePath 文件保存路径。注：最后访问路径是 ftpConfig.getFTP_ADDRESS()+"/images"+picSavePath
    * @param inputStream 要上传的文件（图片）
    * @return 若上传成功，返回文件的访问路径，若上传失败，返回null
    */
-  public static String pictureUploadByConfig(String picNewName,
-      String picSavePath, InputStream inputStream) {
-    boolean flag = uploadFile(picSavePath, picNewName,
+  public static String upload(String newName,
+      String savePath, InputStream inputStream) {
+    boolean flag = uploadFile(savePath, newName,
         inputStream);
     if (!flag) {
       return null;
     }
     //picHttpPath = ftpConfig.getFTP_ADDRESS()+"/images"+picSavePath+"/"+picNewName;
-    return ftpConfig.getFTP_BASE_PATH() + picSavePath + "/" + picNewName;
+    return ftpConfig.getFTP_BASE_PATH() + savePath + "/" + newName;
   }
 
 
