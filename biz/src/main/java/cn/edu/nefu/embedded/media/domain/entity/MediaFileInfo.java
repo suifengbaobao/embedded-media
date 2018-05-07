@@ -14,9 +14,13 @@ public class MediaFileInfo {
    */
   private Long id;
   /**
-   * 文件名
+   * 原文件名
    */
-  private String fileName;
+  private String originalFileName;
+  /**
+   * 新的文件名
+   */
+  private String newFileName;
   /**
    * 文件的md5值（文件名+上传时间毫秒+上传机器IP+上传用户）
    */
@@ -41,6 +45,7 @@ public class MediaFileInfo {
    * 额外的信息
    */
   private String extraInfo;
+  private Boolean isDeleted;
   private Long updated;
   private Long created;
 }

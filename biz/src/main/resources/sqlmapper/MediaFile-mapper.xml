@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nefu.embedded.media.dal.MediaFileMapper">
+
+  <sql id="BaseColumns">id, originalFileName, newFileName, md5Val, `size`, `type`, userId, path, extraInfo, isDeleted, updated, created</sql>
+
+  <insert id="insert" keyProperty="id" useGeneratedKeys="true"
+    parameterType="MediaFileInfo">
+    INSERT INTO `MediaFile`
+    <trim prefix="(" suffix=")">
+      <if test="originalFileName != null">
+        originalFileName
+      </if>
+      <if test="newFileName != null">
+        ,newFileName
+      </if>
+      <if test="newFileName != null">
+        ,nickName
+      </if>
+      <if test="md5Val != null">
+        ,md5Val
+      </if>
+      <if test="size != null">
+        ,`size`
+      </if>
+      <if test="type != null">
+        ,`type`
+      </if>
+      <if test="userId != null">
+        ,userId
+      </if>
+      <if test="isDeleted != null">
+        ,isDeleted
+      </if>
+      <if test="extraInfo != null">
+        ,extraInfo
+      </if>
+      ,created,updated
+    </trim>
+    VALUES
+    <trim prefix="(" suffix=")">
+      <if test="originalFileName != null">
+        #{originalFileName}
+      </if>
+      <if test="newFileName != null">
+        ,#{newFileName}
+      </if>
+      <if test="md5Val != null">
+        ,#{md5Val}
+      </if>
+      <if test="size != null">
+        ,#{size}
+      </if>
+      <if test="type != null">
+        ,#{type}
+      </if>
+      <if test="userId != null">
+        ,#{userId}
+      </if>
+      <if test="isDeleted != null">
+        ,#{isDeleted}
+      </if>
+      <if test="extraInfo != null">
+        ,#{extraInfo}
+      </if>
+      ,UNIX_TIMESTAMP(),UNIX_TIMESTAMP()
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="MediaFileInfo">
+    UPDATE `MediaFile`
+    <set>
+      <if test="originalFileName != null">
+        originalFileName=#{originalFileName}
+      </if>
+      <if test="newFileName != null">
+        ,newFileName=#{newFileName}
+      </if>
+      <if test="size != null">
+        ,size=#{size}
+      </if>
+      <if test="type != null">
+        ,type=#{type}
+      </if>
+      <if test="userId != null">
+        ,userId=#{userId}
+      </if>
+      <if test="isDeleted != null">
+        ,isDeleted=#{isDeleted}
+      </if>
+      <if test="extraInfo != null">
+        ,extraInfo=#{extraInfo}
+      </if>
+      ,updated=UNIX_TIMESTAMP()
+    </set>
+    WHERE id=#{id}
+    LIMIT 1
+  </update>
+
+  <update id="deleteById" parameterType="java.lang.Long">
+    UPDATE `MediaFile`
+    SET isDeleted=1
+    WHERE id=#{id}
+    LIMIT 1
+  </update>
+
+  <select id="queryByUserId" parameterType="java.lang.Long" resultType="MediaFileInfo">
+    SELECT <include refid="BaseColumns"/>
+    FROM `MediaFile`
+    WHERE userId=#{userId} AND isDeleted=0
+    ORDER BY created DESC
+    LIMIT 5000
+  </select>
+
+  <select id="queryById" parameterType="java.lang.Long" resultType="MediaFileInfo">
+    SELECT <include refid="BaseColumns"/>
+    FROM `MediaFile`
+    WHERE id=#{id} AND isDeleted=0
+    LIMIT 1
+  </select>
+
+  <select id="queryByIds" parameterType="java.lang.Long" resultType="MediaFileInfo">
+    SELECT <include refid="BaseColumns"/>
+    FROM `MediaFile`
+    WHERE id in
+    <trim prefix="(" suffix=")">
+      <foreach collection="ids" item="id" separator=",">
+        #{id}
+      </foreach>
+    </trim>
+    AND isDeleted=0
+    LIMIT 5000
+  </select>
+
+  <select id="queryByType" parameterType="java.lang.Integer" resultType="MediaFileInfo">
+    SELECT <include refid="BaseColumns"/>
+    FROM `MediaFile`
+    WHERE type=#{type} AND isDeleted=0
+    ORDER BY `type` AND created DESC
+    LIMIT 5000
+  </select>
+
+  <select id="queryByMd5" parameterType="java.lang.String" resultType="MediaFileInfo">
+    SELECT <include refid="BaseColumns"/>
+    FROM `MediaFile`
+    WHERE md5Val=#{md5} AND isDeleted=0
+    LIMIT 1
+  </select>
+</mapper>
