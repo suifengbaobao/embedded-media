@@ -31,8 +31,7 @@ public class FtpUtil {
     if (!flag) {
       return null;
     }
-    //picHttpPath = ftpConfig.getFTP_ADDRESS()+"/images"+picSavePath+"/"+picNewName;
-    return ftpConfig.getFTP_BASE_PATH() + savePath + "/" + newName;
+    return ftpConfig.getFTP_BASE_PATH() + savePath + File.separator + newName;
   }
 
 
@@ -56,13 +55,13 @@ public class FtpUtil {
       //切换到上传目录
       if (!ftp.changeWorkingDirectory(ftpConfig.getFTP_BASE_PATH() + filePath)) {
         //如果目录不存在创建目录
-        String[] dirs = filePath.split("/");
+        String[] dirs = filePath.split(File.separator);
         String tempPath = ftpConfig.getFTP_BASE_PATH();
         for (String dir : dirs) {
           if (null == dir || "".equals(dir)) {
             continue;
           }
-          tempPath += "/" + dir;
+          tempPath += File.separator + dir;
           if (!ftp.changeWorkingDirectory(tempPath)) {
             if (!ftp.makeDirectory(tempPath)) {
               return false;
@@ -111,7 +110,7 @@ public class FtpUtil {
       FTPFile[] fs = ftp.listFiles();
       for (FTPFile ff : fs) {
         if (ff.getName().equals(fileName)) {
-          File localFile = new File(localPath + "/" + ff.getName());
+          File localFile = new File(localPath + File.separator + ff.getName());
           OutputStream is = new FileOutputStream(localFile);
           ftp.retrieveFile(ff.getName(), is);
           is.close();

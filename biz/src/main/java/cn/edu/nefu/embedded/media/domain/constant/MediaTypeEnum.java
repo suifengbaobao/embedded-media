@@ -8,24 +8,29 @@ public enum MediaTypeEnum {
   /**
    * 图片类型
    */
-  IMAGE(111),
+  IMAGE(111, "image"),
   /**
    * 视频类型
    */
-  VEDIO(222),
+  VEDIO(222, "video"),
   /**
    * 文件类型（除了图片，视频的文件）
    */
-  FILE(333);
+  FILE(333, "file");
 
 
-  private int value;
+  private int code;
+  private String value;
 
-  MediaTypeEnum(int value){
+  MediaTypeEnum(int code, String value){
+    this.code = code;
     this.value = value;
   }
 
-  public int getValue() {
+  public int getCode() {
+    return code;
+  }
+  public String getValue() {
     return value;
   }
 }

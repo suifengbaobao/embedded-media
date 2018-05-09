@@ -14,6 +14,10 @@ public class MediaUploadResult {
    */
   private boolean success;
   /**
+   * 响应信息
+   */
+  private String msg;
+  /**
    * 相对路径
    */
   private String url;
