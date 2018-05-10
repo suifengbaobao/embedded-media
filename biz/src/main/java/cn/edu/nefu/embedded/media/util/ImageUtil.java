@@ -5,7 +5,7 @@ package cn.edu.nefu.embedded.media.util;
  * created by banshui on 2018/5/9
  */
 public class ImageUtil {
-  private static final String MEDIA_DOMAIN = "http://www.static.embedded-nefu";
+  private static final String MEDIA_DOMAIN = "http://media.embedded-nefu.com";
 
   /**
    * 获取图片的绝对路径

@@ -15,8 +15,6 @@ public class FtpUtil {
 
   private static FTPClient ftpClient = null;
 
-  private static FtpConfig ftpConfig = new FtpConfig();
-
   /**
    * ftp上传文件方法 title:pictureUpload
    * @param newName 文件新名称--防止重名 例如："1.jpg"
@@ -31,7 +29,7 @@ public class FtpUtil {
     if (!flag) {
       return null;
     }
-    return ftpConfig.getFTP_BASE_PATH() + savePath + File.separator + newName;
+    return "/" + savePath + "/" + newName;
   }
 
 
@@ -53,15 +51,15 @@ public class FtpUtil {
         return false;
       }
       //切换到上传目录
-      if (!ftp.changeWorkingDirectory(ftpConfig.getFTP_BASE_PATH() + filePath)) {
+      if (!ftp.changeWorkingDirectory(FtpConfig.FTP_BASE_PATH + "/" + filePath)) {
         //如果目录不存在创建目录
-        String[] dirs = filePath.split(File.separator);
-        String tempPath = ftpConfig.getFTP_BASE_PATH();
+        String[] dirs = filePath.split("/");
+        String tempPath = FtpConfig.FTP_BASE_PATH;
         for (String dir : dirs) {
           if (null == dir || "".equals(dir)) {
             continue;
           }
-          tempPath += File.separator + dir;
+          tempPath += "/" + dir;
           if (!ftp.changeWorkingDirectory(tempPath)) {
             if (!ftp.makeDirectory(tempPath)) {
               return false;
@@ -110,7 +108,7 @@ public class FtpUtil {
       FTPFile[] fs = ftp.listFiles();
       for (FTPFile ff : fs) {
         if (ff.getName().equals(fileName)) {
-          File localFile = new File(localPath + File.separator + ff.getName());
+          File localFile = new File(localPath + "/" + ff.getName());
           OutputStream is = new FileOutputStream(localFile);
           ftp.retrieveFile(ff.getName(), is);
           is.close();
@@ -131,10 +129,11 @@ public class FtpUtil {
   private static FTPClient getFTPClient() throws IOException {
     if (ftpClient == null) {
       ftpClient = new FTPClient();
+      ftpClient.setControlEncoding("UTf-8");
       ftpClient
-          .connect(ftpConfig.getFTP_ADDRESS(), Integer.valueOf(ftpConfig.getFTP_PORT()));// 连接FTP服务器
+          .connect(FtpConfig.FTP_ADDRESS, FtpConfig.FTP_PORT);// 连接FTP服务器
       // 如果采用默认端口，可以使用ftp.connect(host)的方式直接连接FTP服务器
-      ftpClient.login(ftpConfig.getFTP_USERNAME(), ftpConfig.getFTP_PASSWORD());// 登录
+      ftpClient.login(FtpConfig.FTP_USERNAME, FtpConfig.FTP_PASSWORD);// 登录
     }
     return ftpClient;
   }

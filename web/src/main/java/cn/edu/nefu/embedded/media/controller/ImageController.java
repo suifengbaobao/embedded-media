@@ -4,9 +4,10 @@ import cn.edu.nefu.embedded.media.domain.constant.MediaTypeEnum;
 import cn.edu.nefu.embedded.media.response.MediaUploadResult;
 import cn.edu.nefu.embedded.media.util.FtpUtil;
 import cn.edu.nefu.embedded.media.util.ImageUtil;
+import com.google.common.collect.Lists;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +62,7 @@ public class ImageController {
       String url = FtpUtil.upload(fileName, getFilePath(), uploadFile.getInputStream());
       if(url != null) {
         mediaUploadResult.setMsg("SUCCESS");
-        mediaUploadResult.setUrl(ImageUtil.getAbsolutePath(url));
+        mediaUploadResult.setUrls(Lists.newArrayList(ImageUtil.getAbsolutePath(url)));
         return mediaUploadResult;
       }
     } catch (IOException e) {
@@ -73,7 +74,7 @@ public class ImageController {
 
   private String getFilePath() {
     Date nowDate = new Date();
-    return MediaTypeEnum.IMAGE.getValue() + File.separator + new DateTime(nowDate).toString("yyyy") + File.separator + new DateTime(nowDate).toString("MM") + File.separator
+    return MediaTypeEnum.IMAGE.getValue() + "/" + new DateTime(nowDate).toString("yyyy") + "/" + new DateTime(nowDate).toString("MM") + "/"
         + new DateTime(nowDate).toString("dd");
   }
 }
