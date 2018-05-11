@@ -1,6 +1,5 @@
 package cn.edu.nefu.embedded.media.response;
 
-import java.util.List;
 import lombok.Data;
 
 /**
@@ -19,19 +18,24 @@ public class MediaUploadResult {
    */
   private String msg;
   /**
-   * 相对路径
+   * 绝对路径
    */
-  private List<String> urls;
+  private String url;
   /**
    * 媒体类型专用 宽度
    */
-  private String width;
+  private int width;
   /**
    * 媒体类型专用 高度
    */
-  private String height;
+  private int height;
   /**
    * 文件大小，单位字节
    */
   private long size;
+
+  public MediaUploadResult error(String msg){
+    this.msg = msg;
+    return this;
+  }
 }
